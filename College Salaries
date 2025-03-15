@@ -1,0 +1,52 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+mydata=pd.read_csv("E:\PARTHO\Programming\Python\sample.csv")
+
+mydata.info()
+mydata.head()
+mydata.T
+
+mydata.loc[mydata['% High Meaning']=='-']
+mydata['% High Meaning']=pd.to_numeric(mydata['% High Meaning'].str.rstrip('%').str.replace('-','0').astype(float),errors='coerce')
+mydata['Early Career Pay']=pd.to_numeric(mydata['Early Career Pay'].str.lstrip('$').str.replace(',',''))/100
+mydata['Mid-Career Pay']=pd.to_numeric(mydata['Mid-Career Pay'].str.lstrip('$').str.replace(',',''))/100
+mydata.dtypes
+
+mydata.columns=['Rank','Major','Degree Type','Early Career Pay in Dollars(x100)','Mid-Career Pay in Dollars(x100)','High Meaning(%)']
+
+mydata.describe()
+mydata.loc[mydata['Mid-Career Pay in Dollars(x100)']==2121.0 ]
+mydata.loc[mydata['Early Career Pay in Dollars(x100)']==1285]
+mydata.loc[mydata['High Meaning(%)']==80]
+mydata.loc[mydata['High Meaning(%)']==21]
+floatcategory=mydata.select_dtypes(include='float').columns
+for col in floatcategory:
+    print(f'Frequncy of {col}:')
+    print(mydata[col].value_counts().head())
+
+mydata.loc[mydata['High Meaning(%)']<40]
+mydata['High Meaning(%)']=mydata['High Meaning(%)'].replace(0,'Between 30.0 and 35.0')
+mydata.loc[mydata['High Meaning(%)']=='Between 30.0 and 35.0']
+
+plt.hist(mydata['Early Career Pay in Dollars(x100)'],edgecolor='black')
+plt.xlabel('Pay in Dollars(x100)')
+plt.ylabel('Frequency')
+plt.title('Early Career Pay');
+
+plt.hist(mydata['Mid-Career Pay in Dollars(x100)'],color='orange',edgecolor='black')
+plt.xlabel('Pay in Dollars(x100)')
+plt.ylabel('Frequency')
+plt.title('Early Career Pay');
+
+mydata=pd.read_csv("E:\PARTHO\Programming\Python\sample.csv")
+mydata.columns=['Rank','Major','Degree Type','Early Career Pay in Dollars(x100)','Mid-Career Pay in Dollars(x100)','High Meaning(%)']
+mydata['High Meaning(%)']=pd.to_numeric(mydata['High Meaning(%)'].str.rstrip('%'),errors='coerce')
+mydata.dtypes
+
+plt.bar(mydata['Major'],mydata['High Meaning(%)'],color='blue',edgecolor='black')
+plt.xticks(rotation=90)
+plt.xlabel('Major')
+plt.ylabel('High Meaning(%)')
+plt.title('Percentage of High Meaning for different Major');
